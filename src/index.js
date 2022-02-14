@@ -8,7 +8,8 @@ const port = process.env.PORT || 4001;
 
 const staffRoute = require("./routes/staffRoute");
 const borrowRoute = require("./routes/borrowRoute");
-
+const bookRoute = require("./routes/bookRoute");
+const memberRoute = require("./routes/memberRoute");
 
 //จำเป็น
 const app = express();
@@ -24,6 +25,9 @@ require("./db")(app);
 //localhost:4000/staff
 app.use("/staff",staffRoute);
 app.use("/borrow", borrowRoute);
+app.use("/book", bookRoute);
+app.use("/member", memberRoute);
+
 
 app.get("/", (req, res)=>{
     res.send("Hello from insex");

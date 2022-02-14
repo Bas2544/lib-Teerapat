@@ -1,6 +1,17 @@
 const Staff = require('../models/staffModel');
 
 
+exports.getStaffs = async(req,res)=>{
+    Staff.find()
+    .exec((err,result)=>{
+        res.status(200).json({
+            msg:"OK",
+            data: result
+        });
+    });
+}
+
+
 exports.addstaff = async (req,res) =>{
 
     try {
@@ -8,8 +19,9 @@ exports.addstaff = async (req,res) =>{
         let staff = new Staff({
             staff_id:req.body.staff_id,
             name:req.body.name,
+            password:req.body.password,
             address:req.body.address,
-            phonNumber:req.body.phonNumber,
+            phoneNumber:req.body.phoneNumber,
             
         });
 
@@ -98,4 +110,19 @@ exports.updateStaff = async (req,res)=>{
             });
         });
     });
+};
+
+exports.deleteStaff = async (req, res) => {
+    Staff.findByIdAndDelete(req.params.id)
+        .exec((err) => {
+            if (err) {
+                res.status(500).json({
+                    msg: err
+                });
+            } else {
+                res.status(200).json({
+                    msg: "Delete complete"
+                });
+            }
+        });
 };

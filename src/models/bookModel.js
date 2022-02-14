@@ -5,6 +5,13 @@ const jwt = require('jsonwebtoken');
 const Schema = mongoose.Schema;
 
 const bookSchema = new Schema({
+    book_id:{
+        type:String,
+        require : true,
+        unique:true
+    },
+
+
     name:{
         type:String,
         required:true
@@ -28,3 +35,4 @@ module.exports = mongoose.model("book", bookSchema);
 bookSchema.plugin(uniqueValidator, {
     message: '{PATH} Already in use'
 });
+

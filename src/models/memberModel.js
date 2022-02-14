@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 
 const memberSchema = new Schema({
 
-    member_id:{
+    memberId:{
         type:String,
         require:true,
         unique:true, 
@@ -30,17 +30,8 @@ const memberSchema = new Schema({
     phoneNumber:{
         type:String,
         required:true
-    },
-    type:{
-        type_name:{
-            type:String,
-            required:true
-        },
-        day_borrow:{
-            type:Number,
-            required:true
-        }
     }
+    
 },{
     timestamps:true
 });

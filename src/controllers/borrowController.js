@@ -1,5 +1,17 @@
 const Borrow = require("../models/borrowModel");
 
+
+exports.getBorrows = async (req, res) => {
+    Borrow.find()
+        .exec((err, result) => {
+            res.status(200).json({
+                msg: "Ok",
+                data: result
+            })
+        });
+};
+
+
 exports.borrowBook = async(req, res) => {
     try {
         let borrow = new Borrow(req.body);
@@ -34,8 +46,9 @@ exports.borrowBook = async(req, res) => {
 
 exports.returnBook = async(req, res) => {
     let data = { 
-            returnedDate : new Date()
-        }; 
+        returnedDate : new Date(),
+        receiver: req.body.receiver
+    };
     Borrow.findByIdAndUpdate(req.params.id, data).exec((err, result)=>{
             Borrow.findById(req.params.id)
                 .exec((err, result)=>{
@@ -103,13 +116,42 @@ exports.borrowBook02 = async(req, res)=>{
             Borrow.findById(createdBorrow._id)
                 .exec((err, result)=>{
                     res.status(200).json({
-                        msg: "Borrow savedeeeeeeeee",
+                        msg: "Borrow save",
                         data: result
                     });
                 });
         });
     } catch (error) {
        
+        console.log(err);
+        res.status(500).json({
+            error: err
+        });
+    }
+};
+
+
+exports.addBorrow = async (req, res) => {
+    try {
+        // define a new product schema, define data from request body
+        let borrow = new borrow({
+            borrower: req.body.borrower,
+            book: req.body.book,
+            dateborrow: req.body.dateborrow,
+            limit: req.body.limit,
+            lender: req.body.lender,
+            // student: req.body.student,
+            // teacher:req.body.teacher
+            // no reviews yet for now
+        });
+        // store result from saving
+        let createdBorrow = await borrow.save();
+        res.status(200).json({
+            msg: "Add a Book complete.",
+            data: createdBorrow
+        });
+    } catch (err) {
+        // if there is an error, it will jump to here
         console.log(err);
         res.status(500).json({
             error: err
